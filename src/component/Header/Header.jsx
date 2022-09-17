@@ -11,6 +11,10 @@ export default function Header() {
             </NavLink>
           </div>
           <div className="user-section">
+            <NavLink to="/" className="cart d-inline-block me-2">
+              <img src="/img/searchImg.png" alt="..." />
+              <span className="amount-item">Search</span>
+            </NavLink>
             <NavLink to="/" className="cart d-inline-block">
               <img src="/img/image 8.png" alt="..." />
               <span className="amount-item">(1)</span>
