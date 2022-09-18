@@ -13,3 +13,5 @@ const productReducer = createSlice({
 export const {} = productReducer.actions
 
 export default productReducer.reducer
+
+//-----------------------action api-------------//
