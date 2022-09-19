@@ -17,7 +17,37 @@ export default function Home() {
   },[])
   const renderProductFeature = () => {
     let productFeatureArr = randomProductItem(arrProduct,6);
-    console.log(productFeatureArr);
+    return productFeatureArr.map((prod,index)=>{
+      return (
+        <div className="col-lg-4 col-md-6 col-12 product-main-part" key={index}>
+          <div className="card text-start m-3">
+            <div className="card-top">
+              <img className="card-img-top" src={prod.image} alt={prod.name}/>
+            </div>
+            <div className="card-body">
+              <h4 className="card-title product-name">
+                {prod.name}
+              </h4>
+              <p className="card-text product-descript">
+                {prod.shortDescription.length>50?prod.shortDescription.substring(0,50):prod.shortDescription}
+              </p>
+            </div>
+            <div className="card-footer d-flex justify-content-between align-items-center">
+              <NavLink
+                to={`/detail/${prod.id}`}
+                className="btnBuy w-50 text-center"
+              >
+                Buy Now
+              </NavLink>
+              <p className="price d-inline-block text-center w-50 m-0">
+                {prod.price}$
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+
+    })
   }
   
   return (
@@ -31,9 +61,10 @@ export default function Home() {
         <div className="container">
           <div className="title">
             <h3 className="text-center">-Product Feature -</h3>
+          </div>
+          <div className="row" id="productFeatureTbl">
             {renderProductFeature()}
           </div>
-          <div className="row" id="productFeatureTbl" />
         </div>
       </div>
     </div>
