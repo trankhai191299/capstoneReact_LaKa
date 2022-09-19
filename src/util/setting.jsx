@@ -92,3 +92,16 @@ http.interceptors.response.use((response)=>{
     201: da dc tao thanh cong => (da tao ra roi, gui request se tra tiep)(created) 
     500: loi xay ra tai server (nguyen nhan: fe: gui dl khong hop le => be: trong qua trinh xu ly code xay ra loi hoac be: code loi)(error in server)
 */
+export const randomProductItem = (arr,quantity) =>{
+    let newArr = []
+    for (let i = 0; i < arr.length; i++){
+        let k = Math.floor(Math.random()*arr.length)
+        if(!newArr.includes(arr[k])&&newArr.length<quantity){
+            newArr.push(arr[k])
+        }
+        if(newArr.length === quantity){
+            break
+        }
+    }
+    return newArr;
+}
