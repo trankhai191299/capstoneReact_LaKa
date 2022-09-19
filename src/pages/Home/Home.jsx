@@ -81,14 +81,37 @@ export default function Home() {
 
     })
   }
+  const NextArrow = (props) =>{
+    const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", backgroundImage: "../../assets/img/Polygon 1.png" }}
+      onClick={onClick}
+    />
+  );
+  }
+  const PrevArrow = (props) =>{
+    const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", backgroundImage: "../../assets/img/Polygon 2.png" }}
+      onClick={onClick}
+    />
+  );
+  }
   const settings = {
     infinite: true,
-    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows:true,
     autoplay: true,
-    autoplaySpeed:2000
+    autoplaySpeed:2000,
+    cssEase: "linear",
+    speed:1000,
+    nextArrow:<NextArrow/>,
+    prevArrow:<PrevArrow/>
   }
   return (
     <div>
@@ -99,6 +122,7 @@ export default function Home() {
           </Slider>
         </div>
       </div>
+      <img src="../" alt="" />
       <div className="product-feature">
         <div className="container">
           <div className="title">
