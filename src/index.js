@@ -8,10 +8,14 @@ import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register';
 import Detail from './pages/Detail/Detail'
-import './assets/scss/styles.scss'
 import { Provider } from "react-redux";
 import { store } from "./redux/configStore";
 
+//css+scss  
+import "../node_modules/slick-carousel/slick/slick.css"; 
+import "../node_modules/slick-carousel/slick/slick-theme.css";
+import './assets/scss/styles.scss'
+//
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>

@@ -1,13 +1,13 @@
 import React from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { useEffect } from 'react'
-import {NavLink,useNavigate} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import { getAllProductApi } from "../../redux/reducers/productReducer";
 import { randomProductItem } from "../../util/setting";
+import Slider from "react-slick";
 export default function Home() {
   const {arrProduct} = useSelector(state=>state.productReducer)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const getAllProduct = () =>{
     const getProductAction = getAllProductApi()
     dispatch(getProductAction)
@@ -49,12 +49,54 @@ export default function Home() {
 
     })
   }
-  
+  const renderCarouselItem = () => {
+    let productCarouselArr = randomProductItem(arrProduct,3);
+    return productCarouselArr.map((prod,index)=>{
+      return (
+        <div className="slick-item" key={index}>
+          <div className="row align-items-center justify-contents-between text-start">
+            <div className="col-lg-8 col-12">
+              <div className="carousel-left">
+                <img src={prod.image} alt={prod.name} />
+              </div>
+            </div>
+            <div className="col-lg-4 col-12">
+              <div className="carousel-right">
+                <div className="shoe-info">
+                  <h3 className="shoe-name">
+                    {prod.name}
+                  </h3>
+                  <p className="shoe-description">
+                    {prod.shortDescription.length>50?prod.shortDescription.substring(0,50):prod.shortDescription}
+                  </p>
+                  <NavLink className="btnBuy" to={`/detail/${prod.id}`}>
+                    Buy Now
+                  </NavLink>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+    })
+  }
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows:true,
+    autoplay: true,
+    autoplaySpeed:2000
+  }
   return (
     <div>
       <div className="carousel">
         <div className="container">
-          <div className="carousel-content slick-ready" id="carousel-content" />
+          <Slider {...settings} className="carousel-content slick-ready" id="carousel-content" >
+            {renderCarouselItem()}
+          </Slider>
         </div>
       </div>
       <div className="product-feature">
