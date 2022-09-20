@@ -14,49 +14,44 @@ export default function Detail() {
   }
   useEffect(()=>{
     getProductDetail()
-  },[params.id])
+  },[params?.id])
+  const renderSize = () =>{
+    return productDetail.size?.map((sz)=>{
+      return (
+        <button 
+         onClick={()=>{
+          dispatch()
+         }}
+         className='my-2 me-2 border-0 p-2'
+        >
+          {sz}
+        </button>
+      )
+    })
+  }
   const renderItemDetail = () => {
     return (
       <div className="row justify-content-around mt-2" id={params.id}>
         <div className="col-lg-4 col-md-12 mt-5">
           <img
             className="bg-light w-100 border border-secondary border-2 rounded-3"
-            src={productDetail?.image}
-            alt={productDetail?.name}
+            src={productDetail.image}
+            alt={productDetail.name}
           />
         </div>
         <div className="col-lg-6 col-md-12 mt-5">
-          <h1>{productDetail?.name}</h1>
-          <p>{productDetail?.description}</p>
+          <h1>{productDetail.name}</h1>
+          <p>{productDetail.description}</p>
           <span style={{ display: "block" }} className="mb-2 text-success fw-bold">
             Available size
           </span>
-          {/* <button className="me-2 ps-1 pe-1 mt-2">
-            {productDetail.size[0]}
-          </button>
-          <button className="me-2 ps-1 pe-1 mt-2">
-            {productDetail.size[1]}
-          </button>
-          <button className="me-2 ps-1 pe-1 mt-2">
-            {productDetail.size[2]}
-          </button>
-          <button className="me-2 ps-1 pe-1 mt-2">
-            {productDetail.size[3]}
-          </button>
-          <button className="me-2 ps-1 pe-1 mt-2">
-            {productDetail.size[4]}
-          </button>
-          <button className="me-2 ps-1 pe-1 mt-2">
-            {productDetail.size[5]}
-          </button>
-          <button className="me-2 ps-1 pe-1 mt-2">
-            {productDetail.size[6]}
-          </button> */}
+          
           {/* {productDetail?.size.map((index)=>{
             return  <button className="me-2 ps-1 pe-1 mt-2" key={index}>
                       {productDetail.size[index]}
                     </button>
           })} */}
+          {renderSize()}
           <span
             style={{ display: "block" }}
             className="mt-2 mb-2 text-danger fw-bold"
@@ -76,17 +71,18 @@ export default function Detail() {
           >
             -
           </button>
-          <button
+          <NavLink
             style={{
               display: "block",
               background:
                 "linear-gradient(270deg,rgba(62, 32, 248, 0.9) 5.14%,#d017ee 89.71%)",
               border: "none",
             }}
-            className="cart mt-3 p-2 text-white"
+            className="btn cart mt-3 p-2 text-white"
+            to={'/home'}
           >
             Add to cart
-          </button>
+          </NavLink>
         </div>
       </div>
     );
@@ -109,12 +105,12 @@ export default function Detail() {
               </p>
             </div>
             <div className="card-footer d-flex justify-content-between align-items-center">
-              <a
-                href="./detail.html?getbyid=${id}"
+              <NavLink
+                to={`/detail/${item.id}`}
                 className="btnBuy w-50 text-center"
               >
                 Buy Now
-              </a>
+              </NavLink>
               <p className="price d-inline-block text-center w-50 m-0">
                 {item.price}$
               </p>

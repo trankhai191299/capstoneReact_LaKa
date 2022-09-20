@@ -4,6 +4,7 @@ import { http } from '../../util/setting';
 const initialState = {
     arrProduct:[],
     productDetail:{},
+    cart:[]
 }
 
 const productReducer = createSlice({
