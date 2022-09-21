@@ -10,16 +10,19 @@ import Register from './pages/Register/Register';
 import Detail from './pages/Detail/Detail'
 import { Provider } from "react-redux";
 import { store } from "./redux/configStore";
-
+//cau hinh history
+import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
+import { createBrowserHistory } from "history";
 //css+scss  
 import "../node_modules/slick-carousel/slick/slick.css"; 
 import "../node_modules/slick-carousel/slick/slick-theme.css";
 import './assets/scss/styles.scss'
 //
+export const history = createBrowserHistory({ window });
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <HistoryRouter history={history}>
     <Routes>
       <Route path='' element={<App/>}>
         <Route index element={<Home/>}></Route>
@@ -36,7 +39,7 @@ root.render(
          */}
       </Route>
     </Routes>
-  </BrowserRouter>
+  </HistoryRouter>
   </Provider>
   
 );

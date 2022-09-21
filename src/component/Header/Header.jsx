@@ -4,7 +4,7 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header-content">
-        <div className="container d-flex align-items-center justify-content-between">
+        <div className="mx-5 d-flex align-items-center justify-content-between">
           <div className="logo">
             <NavLink to="/">
               <img src="/img/image 3.png" alt="..." />
@@ -31,7 +31,7 @@ export default function Header() {
         </div>
       </div>
       <div className="navbarShop">
-        <div className="container">
+        <div className='mx-5'>
           <div className="nav">
             <NavLink className="nav-link active" to="/">
               Home
