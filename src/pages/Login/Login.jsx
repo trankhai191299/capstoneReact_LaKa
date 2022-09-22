@@ -16,7 +16,7 @@ export default function Login() {
         <div className="row">
           <div className="col-4"></div>
           <div className="col-4">
-            <form>
+            <form className='mt-3'>
               <div className="form-group">
                 <p>Email</p>
                 <input
@@ -49,11 +49,12 @@ export default function Login() {
                   </NavLink>
                 </div>
                 <div className="col-4">
-                  <button className="btn rounded-pill">Login</button>
+                  <button className="btn rounded-pill btn-login">Login</button>
                 </div>
               </div>
-              <NavLink className='btn'>
+              <NavLink className='btn w-100 mt-3 btn-fb'>
                 <i></i>
+                Continue with Facebook
               </NavLink>
             </form>
           </div>

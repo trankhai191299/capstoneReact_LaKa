@@ -1,5 +1,5 @@
 import axios from "axios";
-// import { history } from "../index";
+import { history } from "../index";
 export const config = {
     setCookie:(name,value,days)=>{
         var expires = "";
@@ -72,13 +72,18 @@ http.interceptors.request.use(
 http.interceptors.response.use((response)=>{
     return response
 },err=>{
+    if(err.response.data.message = "Email đã được sử dụng!"){
+        alert('Email đã được sử dụng! Xin hãy sử dụng email khác')
+        history.push('/register')
+        return Promise.reject(err)
+    }
     if(err.response.status === '400' || err.response.status === '404'){
-        // history.push('/')
+        history.push('/')
         return Promise.reject(err)
     }
     if(err.response.status === '401' || err.response.status === '403'){
-        alert('Token khong hop le! Vui long dang nhap lai')
-        // history.push('/login')
+        alert('Token không hợp lệ! Vui lòng đăng nhập lại')
+        history.push('/login')
         return Promise.reject(err)
     }
 })

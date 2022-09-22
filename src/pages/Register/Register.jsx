@@ -130,10 +130,10 @@ export default function Register() {
                 </div>
               </div>
               <button
-                className="btnSubmit col-md-12 col-lg-3"
+                className="btnSubmit col-md-12 col-lg-3 rounded-pill"
                 id="btnSubmit"
               >
-                Submit
+                Register
               </button>
             </div>
           </form>
