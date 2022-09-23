@@ -17,6 +17,7 @@ import { createBrowserHistory } from "history";
 import "../node_modules/slick-carousel/slick/slick.css"; 
 import "../node_modules/slick-carousel/slick/slick-theme.css";
 import './assets/scss/styles.scss'
+import Profile from './pages/Profile/Profile';
 //
 export const history = createBrowserHistory({ window });
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -33,7 +34,8 @@ root.render(
         <Route path='detail'>
           <Route path=':id' element={<Detail/>}></Route>
         </Route>
-        {/* <Route path='profile' element={<Login/>}></Route>
+        <Route path='profile' element={<Profile/>}></Route>
+        {/* 
         <Route path='search' element={<Login/>}></Route>
         <Route path='cart' element={<Login/>}></Route>
          */}
