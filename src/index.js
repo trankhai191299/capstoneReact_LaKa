@@ -8,6 +8,7 @@ import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register';
 import Detail from './pages/Detail/Detail'
+import Cart from './pages/Cart/Cart'
 import { Provider } from "react-redux";
 import { store } from "./redux/configStore";
 //cau hinh history
@@ -35,9 +36,10 @@ root.render(
           <Route path=':id' element={<Detail/>}></Route>
         </Route>
         <Route path='profile' element={<Profile/>}></Route>
+        <Route path='cart' element={<Cart/>}></Route>
         {/* 
         <Route path='search' element={<Login/>}></Route>
-        <Route path='cart' element={<Login/>}></Route>
+        
          */}
       </Route>
     </Routes>

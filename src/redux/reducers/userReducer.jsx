@@ -3,8 +3,7 @@ import { ACCESS_TOKEN, getStore, getStoreJson, http, setCookie, setStore, setSto
 import { history } from '../../index';
 
 const initialState = {
-  userRegister:{},
-  userLogin:getStoreJson(USER_LOGIN)
+  userLogin:getStoreJson(USER_LOGIN),
 }
 
 const userReducer = createSlice({
@@ -13,7 +12,7 @@ const userReducer = createSlice({
   reducers: {
     getProfileAction:(state,action)=>{
       state.userLogin = action.payload
-    }
+    },
   }
 });
 
@@ -25,7 +24,7 @@ export const registerApi = (userRegister) =>{
   return async (dispatch)=>{
     try {
       const result = await http.post('/Users/signup',userRegister)
-      console.log(result)
+      // console.log(result)
       alert(result.data.message)
       history.push('/login')
     } catch (error) {
@@ -42,7 +41,7 @@ export const loginApi = (userLogin)=>{
       setCookie(ACCESS_TOKEN,result.data.content.accessToken,30)
       setStore(ACCESS_TOKEN,result.data.content.accessToken)
 
-
+      history.push('/profile')
       const action = getProfileApi()
       dispatch(action)
     } catch (error) {
@@ -63,3 +62,16 @@ export const getProfileApi = ()=>{
     }
   }
 }
+
+export const updateApi = (userUpdate) =>{
+  return async (dispatch)=>{
+    try {
+      const result = await http.post('/Users/updateProfile',userUpdate)
+      alert("Cập nhật thành công")
+      dispatch(getProfileApi())
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+

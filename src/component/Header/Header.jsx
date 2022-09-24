@@ -15,7 +15,7 @@ export default function Header() {
               <img src="/img/searchImg.png" alt="..." />
               <span className="amount-item">Search</span>
             </NavLink>
-            <NavLink to="/" className="cart d-inline-block">
+            <NavLink to="/cart" className="cart d-inline-block">
               <img src="/img/image 8.png" alt="..." />
               <span className="amount-item">(1)</span>
             </NavLink>
