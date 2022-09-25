@@ -18,11 +18,38 @@ const productReducer = createSlice({
     getProductDetailAction : (state,action)=>{
       const productDetail = action.payload
       state.productDetail = productDetail
+    },
+    addCartAction: (state,action)=>{
+      let {cartItem,count} = action.payload
+      let cartUpdate = [...state.cart]
+      let item = cartUpdate.find(sp=>sp.id===cartItem.id)
+      if(!item){
+        cartItem = {...cartItem,count}
+        cartUpdate.push(cartItem)
+      }else{
+        cartItem = {...cartItem,count}
+        cartItem.count+=count
+      }
+      state.cart = cartUpdate
+      if(state.cart){
+        alert('Thêm vào giỏ hàng thành công')
+      }else{
+        alert('Thêm thất bại. Xin hãy thử lại')
+      }
+    },
+    upDownQuantityAction:(state,action)=>{
+      
+    },
+    deleteCartAction:(state,action)=>{
+      let cartItemId = action.payload
+      let cartUpdate = [...state.cart]
+      cartUpdate = cartUpdate.filter(it=>it.id!==cartItemId)
+      state.cart = cartUpdate
     }
   }
 });
 
-export const {getAllProductAction,getProductDetailAction} = productReducer.actions
+export const {getAllProductAction,getProductDetailAction,addCartAction,deleteCartAction} = productReducer.actions
 
 export default productReducer.reducer
 

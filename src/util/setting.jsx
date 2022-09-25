@@ -48,7 +48,7 @@ export const config = {
     USER_LOGIN:'userLogin',
 }
 
-export const {setCookie,getCookie,getStore,getStoreJson,setStore,setStoreJson,ACCESS_TOKEN,USER_LOGIN} = config
+export const {setCookie,getCookie,getStore,getStoreJson,setStore,setStoreJson,deleteStore,ACCESS_TOKEN,USER_LOGIN} = config
 
 /*Cau hinh request cho tat ca api- response cho tat ca kq tra ve tu api*/
 /* Cau hinh domain gui di */

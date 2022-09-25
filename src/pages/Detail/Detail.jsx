@@ -1,34 +1,38 @@
 import React, { useEffect } from 'react'
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
-import { getProductDetailApi } from '../../redux/reducers/productReducer';
+import { addCartAction, getProductDetailApi } from '../../redux/reducers/productReducer';
 
 export default function Detail() {
   const {productDetail} = useSelector(state=>state.productReducer)
   const dispatch = useDispatch()
   const params = useParams()
+  const [count,setCount] = useState(1)
   const getProductDetail = async() =>{
     let {id} = params
     const getProductDetailAction = getProductDetailApi(id)
     dispatch(getProductDetailAction)
   }
+  const addCart = ({cartItem,count}) =>{
+    dispatch(addCartAction({cartItem,count}))
+  } 
   useEffect(()=>{
     getProductDetail()
   },[params?.id])
   const renderSize = () =>{
-    return productDetail.size?.map((sz)=>{
+    return productDetail.size?.map((sz,index)=>{
       return (
         <button 
-         onClick={()=>{
-          dispatch()
-         }}
          className='my-2 me-2 border-0 p-2'
+         key={index}
         >
           {sz}
         </button>
       )
     })
   }
+  
   const renderItemDetail = () => {
     return (
       <div className="row justify-content-around mt-2" id={params.id}>
@@ -45,12 +49,6 @@ export default function Detail() {
           <span style={{ display: "block" }} className="mb-2 text-success fw-bold">
             Available size
           </span>
-          
-          {/* {productDetail?.size.map((index)=>{
-            return  <button className="me-2 ps-1 pe-1 mt-2" key={index}>
-                      {productDetail.size[index]}
-                    </button>
-          })} */}
           {renderSize()}
           <span
             style={{ display: "block" }}
@@ -61,17 +59,23 @@ export default function Detail() {
           <button
             className="add ps-2 pe-2 text-white"
             style={{ backgroundColor: "#6181f3", border: "none" }}
+            onClick={()=>{
+              setCount(count+1)
+            }}
           >
             +
           </button>
-          <span className="ms-1 me-1">1</span>
+          <span className="ms-1 me-1">{count}</span>
           <button
             className="minus ps-2 pe-2 text-white"
             style={{ backgroundColor: "#6181f3", border: "none" }}
+            onClick={()=>{
+              setCount(count-1)
+            }}
           >
             -
           </button>
-          <NavLink
+          <button
             style={{
               display: "block",
               background:
@@ -79,10 +83,12 @@ export default function Detail() {
               border: "none",
             }}
             className="btn cart mt-3 p-2 text-white"
-            to={'/home'}
+            onClick={()=>{
+              addCart({cartItem:productDetail,count:count})
+            }}
           >
             Add to cart
-          </NavLink>
+          </button>
         </div>
       </div>
     );
