@@ -9,12 +9,39 @@
         }
       }
       .user-section {
+        .search{
+          img{
+            width: 33px;
+            height: 33px;
+            margin-right: 5px
+          }
+          .search-link{
+            display: inline-block;
+            transform: translateY(5px);
+            transition: all .5s;
+            border-radius: 5px;
+            padding: 0 5px;
+            @include text($text-l, $text-light, $text-cl-sec);
+            &:hover{
+              background-color: $bg-cl-sp3;
+              @include text($text-l, $text-light, $text-cl-prim);
+            }
+          }
+        }
         .cart {
           @include text($text-l, $text-light, $text-cl-sec);
+          min-width: 100px;
+          display: inline-block;
+          text-align: right;
           transform: translateY(5px);
           img {
             width: auto;
             transform: translateY(-5px);
+          }
+          .amount-item{
+            min-width: 55px;
+            display: inline-block;
+            text-align: right;
           }
         }
         .button-area {

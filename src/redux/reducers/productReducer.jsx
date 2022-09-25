@@ -22,13 +22,12 @@ const productReducer = createSlice({
     addCartAction: (state,action)=>{
       let {cartItem,count} = action.payload
       let cartUpdate = [...state.cart]
-      let item = cartUpdate.find(sp=>sp.id===cartItem.id)
-      if(!item){
-        cartItem = {...cartItem,count}
+      cartItem = {...cartItem,count}
+      let indexItem = cartUpdate.findIndex(sp=>sp.id===cartItem.id)
+      if(indexItem === -1){
         cartUpdate.push(cartItem)
       }else{
-        cartItem = {...cartItem,count}
-        cartItem.count+=count
+        cartUpdate[indexItem].count += cartItem.count
       }
       state.cart = cartUpdate
       if(state.cart){
@@ -38,18 +37,33 @@ const productReducer = createSlice({
       }
     },
     upDownQuantityAction:(state,action)=>{
-      
+      let {itemId,num} = action.payload
+      let cartUpdate = [...state.cart]
+      let index = cartUpdate.findIndex(sp=>sp.id===itemId)
+      if(index !== -1){
+        cartUpdate[index].count += num
+        if(cartUpdate[index].count < 1){
+          if(window.confirm('Xác nhận xóa sản phẩm khỏi giỏ hàng?')){
+            cartUpdate = cartUpdate.filter(sp=>sp.id !== itemId)
+          }else{
+            cartUpdate[index].count -= num
+          }
+        }
+      }
+      state.cart = cartUpdate
     },
     deleteCartAction:(state,action)=>{
       let cartItemId = action.payload
       let cartUpdate = [...state.cart]
-      cartUpdate = cartUpdate.filter(it=>it.id!==cartItemId)
+      if(window.confirm('Bạn muốn xóa sản phẩm này?')){
+        cartUpdate = cartUpdate.filter(it=>it.id!==cartItemId)
+      }
       state.cart = cartUpdate
     }
   }
 });
 
-export const {getAllProductAction,getProductDetailAction,addCartAction,deleteCartAction} = productReducer.actions
+export const {getAllProductAction,getProductDetailAction,addCartAction,deleteCartAction,upDownQuantityAction} = productReducer.actions
 
 export default productReducer.reducer
 

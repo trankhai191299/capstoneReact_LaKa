@@ -1,6 +1,11 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { NavLink } from "react-router-dom";
 export default function Header() {
+  const {cart} = useSelector(state=>state.productReducer)
+  const soLuongSp = cart.reduce((tsl,sp,index)=>{
+    return tsl += sp.count
+  },0)
   return (
     <header className="header">
       <div className="header-content">
@@ -11,13 +16,13 @@ export default function Header() {
             </NavLink>
           </div>
           <div className="user-section">
-            <NavLink to="/" className="cart d-inline-block me-2">
+            <NavLink to="/" className="search d-inline-block me-2">
               <img src="/img/searchImg.png" alt="..." />
-              <span className="amount-item">Search</span>
+              <span className="search-link">Search</span>
             </NavLink>
             <NavLink to="/cart" className="cart d-inline-block">
               <img src="/img/image 8.png" alt="..." />
-              <span className="amount-item">(1)</span>
+              <span className="amount-item">({soLuongSp})</span>
             </NavLink>
             <span className="button-area">
               <NavLink to="/login" className="btn ms-2 me-3">

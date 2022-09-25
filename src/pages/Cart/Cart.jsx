@@ -1,7 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { deleteCartAction } from '../../redux/reducers/productReducer'
+import { NavLink } from 'react-router-dom'
+import { deleteCartAction,upDownQuantityAction } from '../../redux/reducers/productReducer'
 
 export default function Cart() {
   const {cart} = useSelector(state=>state.productReducer)
@@ -9,28 +10,63 @@ export default function Cart() {
   const deleteItem = (itemId) =>{
     dispatch(deleteCartAction(itemId))
   }
+  const upDownItem = ({itemId,num})=>{
+    dispatch(upDownQuantityAction({itemId,num}))
+  }
   const renderCartItem = () =>{
     if(cart.length !== 0){
       return cart.map(cartItem=>{
-        return <tr key={cartItem.id}>
-        <td>{cartItem.id}</td>
-        <td>
-          <img src={cartItem.image} alt={cartItem.name} width={85} height={56}/>
-        </td>
-        <td>{cartItem.name}</td>
-        <td>{cartItem.price}$</td>
-        <td>
-          <button className='btn btn-primary me-2'>+</button>
-          {cartItem.count}
-          <button className='btn btn-primary ms-2'>-</button>
-        </td>
-        <td>{cartItem.price * cartItem.count}$</td>
-        <td>
-          <button className='btn btn-danger ms-2' onClick={()=>{
-            deleteItem(cartItem.id)
-          }}>Delete</button>
-        </td>
-      </tr>
+        return (
+          <tr key={cartItem.id}>
+            <td>{cartItem.id}</td>
+            <td>
+              <img
+                src={cartItem.image}
+                alt={cartItem.name}
+                width={85}
+                height={56}
+              />
+            </td>
+            <td>{cartItem.name}</td>
+            <td>{cartItem.price}$</td>
+            <td>
+              <button
+                className="btn me-2 btn-upDown"
+                onClick={() => {
+                  upDownItem({ itemId: cartItem.id, num: 1 });
+                }}
+              >
+                +
+              </button>
+              <span className='count'>{cartItem.count}</span>
+              <button
+                className="btn ms-2 btn-upDown"
+                onClick={() => {
+                  upDownItem({ itemId: cartItem.id, num: -1 });
+                }}
+              >
+                -
+              </button>
+            </td>
+            <td className='totalPrice'>{cartItem.price * cartItem.count}$</td>
+            <td>
+              <button
+                className="btn btn-danger me-2"
+                onClick={() => {
+                  deleteItem(cartItem.id);
+                }}
+              >
+                Delete
+              </button>
+              <NavLink
+                to={`/detail/${cartItem.id}`}
+                className="btn btn-primary ms-2"
+              >
+                Go to
+              </NavLink>
+            </td>
+          </tr>
+        );
       })
     }else{
       return (
@@ -55,7 +91,7 @@ export default function Cart() {
           <div className="table-responsive ">
             <table className='table table-borderless table-hover'>
               <thead className='text-center'>
-                <tr className='table-light'>
+                <tr>
                   <th>ID</th>
                   <th>Image</th>
                   <th>Name</th>

@@ -70,7 +70,9 @@ export default function Detail() {
             className="minus ps-2 pe-2 text-white"
             style={{ backgroundColor: "#6181f3", border: "none" }}
             onClick={()=>{
-              setCount(count-1)
+              if(count>=2){
+                setCount(count-1)
+              }
             }}
           >
             -
