@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { http } from '../../util/setting';
-
+import { getProfileApi } from './userReducer';
 const initialState = {
     arrProduct:[],
     productDetail:{},
@@ -59,11 +59,18 @@ const productReducer = createSlice({
         cartUpdate = cartUpdate.filter(it=>it.id!==cartItemId)
       }
       state.cart = cartUpdate
-    }
+    },
+    // orderItemAction:(state,action)=>{
+    //   let {itemId,quantity,email} = action.payload
+    //   let orderItem = {itemId,quantity}
+    //   let orderDetail = [...orderItem,email]
+    //   orderDetail.push(orderItem)
+      
+    // }
   }
 });
 
-export const {getAllProductAction,getProductDetailAction,addCartAction,deleteCartAction,upDownQuantityAction} = productReducer.actions
+export const {getAllProductAction,getProductDetailAction,addCartAction,deleteCartAction,upDownQuantityAction,orderItemAction} = productReducer.actions
 
 export default productReducer.reducer
 
@@ -71,7 +78,7 @@ export default productReducer.reducer
 export const getAllProductApi = () =>{
   return async (dispatch)=>{
     try {
-      let result = await http.get('product')
+      let result = await http.get('/product')
 
       const action = getAllProductAction(result.data.content)
       dispatch(action)
@@ -87,6 +94,22 @@ export const getProductDetailApi = (id) =>{
       let result = await http.get(`/product/getbyid?id=${id}`)
       const action = getProductDetailAction(result.data.content)
       dispatch(action)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export const orderItemApi = (order)=>{
+  return async (dispatch)=>{
+    try {
+      if(order.orderDetail.length !== 0){
+        let result = await http.post('/users/order',order)
+        getAllProductApi()
+        alert('Đã order thành công!')
+      }else{
+        alert('Xin vui lòng thử lại')
+      }
     } catch (error) {
       console.log(error);
     }

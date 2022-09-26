@@ -77,7 +77,7 @@ http.interceptors.request.use(
 http.interceptors.response.use((response)=>{
     return response
 },err=>{
-    if(err.response.data.message === "Đăng nhập thất bại!"){
+    if(err.response.data?.message === "Đăng nhập thất bại!"){
         alert('Xin hãy kiểm tra lại email hoặc password')
         history.push('/login')
         return Promise.reject(err)

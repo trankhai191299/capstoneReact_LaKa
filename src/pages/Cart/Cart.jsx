@@ -2,16 +2,20 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { deleteCartAction,upDownQuantityAction } from '../../redux/reducers/productReducer'
+import { deleteCartAction,upDownQuantityAction,orderItemApi} from '../../redux/reducers/productReducer'
 
 export default function Cart() {
   const {cart} = useSelector(state=>state.productReducer)
+  const {userLogin} = useSelector(state=>state.userReducer)
   const dispatch = useDispatch()
   const deleteItem = (itemId) =>{
     dispatch(deleteCartAction(itemId))
   }
   const upDownItem = ({itemId,num})=>{
     dispatch(upDownQuantityAction({itemId,num}))
+  }
+  const orderConfirm = (order)=>{
+    dispatch(orderItemApi(order))
   }
   const renderCartItem = () =>{
     if(cart.length !== 0){
@@ -51,7 +55,7 @@ export default function Cart() {
             <td className='totalPrice'>{cartItem.price * cartItem.count}$</td>
             <td>
               <button
-                className="btn btn-danger me-2"
+                className="btn btn-danger me-2 text-uppercase"
                 onClick={() => {
                   deleteItem(cartItem.id);
                 }}
@@ -60,7 +64,7 @@ export default function Cart() {
               </button>
               <NavLink
                 to={`/detail/${cartItem.id}`}
-                className="btn btn-primary ms-2"
+                className="btn btn-primary ms-2 text-uppercase"
               >
                 Go to
               </NavLink>
@@ -102,29 +106,31 @@ export default function Cart() {
                 </tr>
               </thead>
               <tbody className='text-center'>
-                {/* <tr>
-                  <td>1</td>
-                  <td>
-                    <img src="https://picsum.photos/85/56" alt="..." />
-                  </td>
-                  <td>Product 1</td>
-                  <td>1000$</td>
-                  <td>
-                    <button className='btn btn-primary me-2'>+</button>
-                    25
-                    <button className='btn btn-primary ms-2'>-</button>
-                  </td>
-                  <td>25000$</td>
-                  <td>
-                    
-                    <button className='btn btn-danger ms-2'>Delete</button>
-                  </td>
-                </tr> */}
                 {renderCartItem()}
               </tbody>
             </table>
           </div>
-          <button className='btn btn-dark text-white position-absolute' style={{bottom:-25,right:0}}>Submit Order</button>
+          <button className='btn btn-submitOrder btn-dark text-white position-absolute text-uppercase' style={{bottom:-30,right:0}} onClick={()=>{
+            let email = userLogin.email
+            let orderDetail = [...cart]
+            const replace = {
+              id:"productId",
+              count:"quantity"
+            }
+            // let orderRes = orderDetail.map((prod)=>{
+            //   for(let key in replace){
+            //     if(prod[key]){
+            //       prod[replace[key]] = prod[key]
+            //       delete prod[key]
+            //     }
+            //   }
+            //   return prod
+            // })
+            console.log(orderDetail);
+            // console.log(orderRes);
+            // let order = {orderDetail,email}
+            // orderConfirm(order)
+          }}>Submit Order</button>
         </div>
       </div>
     </div>

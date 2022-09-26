@@ -38,5 +38,8 @@
                 }
             }
         }
+        .btn-submitOrder{
+            @include button($btn-cl-8,6px 15px,none,$text-sm,$text-medium,$text-cl-sec,$btn-cl-9,$text-cl-sec)
+        }
     }
 }

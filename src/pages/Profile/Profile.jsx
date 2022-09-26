@@ -53,7 +53,7 @@ export default function Profile() {
                       type="email"
                       name="email"
                       id="email"
-                      placeholder={userLogin?.email}
+                      value={userLogin?.email}
                       className="form-control mb-3"
                       onChange={frm.handleChange} onBlur={frm.handleBlur}
                     />
@@ -65,7 +65,7 @@ export default function Profile() {
                       type="text"
                       name="phone"
                       id="phone"
-                      placeholder={userLogin?.phone}
+                      value={userLogin?.phone}
                       className="form-control"
                       onChange={frm.handleChange} onBlur={frm.handleBlur}
                     />
@@ -79,7 +79,7 @@ export default function Profile() {
                       type="text"
                       name="name"
                       id="name"
-                      placeholder={userLogin?.name}
+                      value={userLogin?.name}
                       className="form-control mb-3"
                       onChange={frm.handleChange} onBlur={frm.handleBlur}
                     />
