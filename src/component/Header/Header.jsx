@@ -3,9 +3,21 @@ import { useSelector } from 'react-redux';
 import { NavLink } from "react-router-dom";
 export default function Header() {
   const {cart} = useSelector(state=>state.productReducer)
+  const {userLogin} = useSelector(state=>state.userReducer)
   const soLuongSp = cart.reduce((tsl,sp,index)=>{
     return tsl += sp.count
   },0)
+  const renderLoginNav = () =>{
+    if(userLogin===null){
+       return <NavLink to="/login" className="btn ms-2 me-3">
+        Login
+      </NavLink>
+    }else{
+       return <NavLink to="/profile" className="btn ms-2 me-3">
+        Profile
+      </NavLink>
+    }
+  }
   return (
     <header className="header">
       <div className="header-content">
@@ -25,9 +37,7 @@ export default function Header() {
               <span className="amount-item">({soLuongSp})</span>
             </NavLink>
             <span className="button-area">
-              <NavLink to="/login" className="btn ms-2 me-3">
-                Login
-              </NavLink>
+              {renderLoginNav()}
               <NavLink to="/register" className="btn">
                 Register
               </NavLink>

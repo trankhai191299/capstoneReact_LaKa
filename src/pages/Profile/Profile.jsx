@@ -4,11 +4,15 @@ import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux';
 // import { useEffect } from 'react';
 // import { ACCESS_TOKEN, getStore } from '../../util/setting';
-import { updateApi } from '../../redux/reducers/userReducer';
+import { updateApi,getProfileApi } from '../../redux/reducers/userReducer';
+import { useEffect } from 'react';
 
 export default function Profile() {
   const {userLogin} = useSelector(state => state.userReducer)
   const dispatch = useDispatch()
+  useEffect(()=>{
+    getProfileApi()
+  },[])
   const frm = useFormik({
     initialValues:{
       email:userLogin?.email ,
@@ -32,13 +36,13 @@ export default function Profile() {
   return (
     <div className="profile">
       <div className="container">
-        <h3 className='mt-3'>Profile</h3>
+        <h3 className="mt-3">Profile</h3>
         <div className="profile-update mt-5">
           <div className="row">
             <div className="col-3">
               <img
                 src={userLogin?.avatar}
-                alt='...'
+                alt="..."
                 width={225}
                 height={225}
                 className="rounded-circle"
@@ -55,9 +59,16 @@ export default function Profile() {
                       id="email"
                       value={userLogin?.email}
                       className="form-control mb-3"
-                      onChange={frm.handleChange} onBlur={frm.handleBlur}
+                      onChange={frm.handleChange}
+                      onBlur={frm.handleBlur}
                     />
-                    {frm.errors.email?<span className='text-danger text-uppercase'>{frm.errors.email}</span>:""}
+                    {frm.errors.email ? (
+                      <span className="text-danger text-uppercase">
+                        {frm.errors.email}
+                      </span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="form-group form-items">
                     <p>Phone</p>
@@ -67,9 +78,16 @@ export default function Profile() {
                       id="phone"
                       value={userLogin?.phone}
                       className="form-control"
-                      onChange={frm.handleChange} onBlur={frm.handleBlur}
+                      onChange={frm.handleChange}
+                      onBlur={frm.handleBlur}
                     />
-                    {frm.errors.phone?<span className='text-danger text-uppercase'>{frm.errors.phone}</span>:""}
+                    {frm.errors.phone ? (
+                      <span className="text-danger text-uppercase">
+                        {frm.errors.phone}
+                      </span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
                 <div className="col-6">
@@ -81,9 +99,16 @@ export default function Profile() {
                       id="name"
                       value={userLogin?.name}
                       className="form-control mb-3"
-                      onChange={frm.handleChange} onBlur={frm.handleBlur}
+                      onChange={frm.handleChange}
+                      onBlur={frm.handleBlur}
                     />
-                    {frm.errors.name?<span className='text-danger text-uppercase'>{frm.errors.name}</span>:""}
+                    {frm.errors.name ? (
+                      <span className="text-danger text-uppercase">
+                        {frm.errors.name}
+                      </span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="form-group form-items">
                     <p>Password</p>
@@ -93,9 +118,16 @@ export default function Profile() {
                       id="password"
                       placeholder="Password"
                       className="form-control"
-                      onChange={frm.handleChange} onBlur={frm.handleBlur}
+                      onChange={frm.handleChange}
+                      onBlur={frm.handleBlur}
                     />
-                    {frm.errors.password?<span className='text-danger text-uppercase'>{frm.errors.password}</span>:""}
+                    {frm.errors.password ? (
+                      <span className="text-danger text-uppercase">
+                        {frm.errors.password}
+                      </span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="row">
                     <div className="col-6">
@@ -112,9 +144,7 @@ export default function Profile() {
                             defaultValue="true"
                             defaultChecked
                           />
-                          <p className='form-check-label'>
-                            Male
-                          </p>
+                          <p className="form-check-label">Male</p>
                         </div>
                         <div className="form-check d-flex flex-column align-items-center">
                           <input
@@ -124,14 +154,14 @@ export default function Profile() {
                             name="gender"
                             defaultValue="false"
                           />
-                          <p className='form-check-label'>
-                            Female
-                          </p>
+                          <p className="form-check-label">Female</p>
                         </div>
                       </div>
                     </div>
                     <div className="col-6 position-relative">
-                      <button className='btn btn-update rounded-pill mt-4 position-absolute end-0'>Update</button>
+                      <button className="btn btn-update rounded-pill mt-4 position-absolute end-0">
+                        Update
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -140,7 +170,48 @@ export default function Profile() {
           </div>
         </div>
         <hr />
-
+        <div
+          className="tab-pane fade"
+          id="v-pills-history"
+          role="tabpanel"
+          aria-labelledby="v-pills-history-tab"
+        >
+          {userLogin?.ordersHistory?.map((orderItem, index) => {
+            return (
+              <div className="mt-2" key={index}>
+                <h3>Order Detail</h3>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Quantity</th>
+                      <th>Image</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orderItem.orderDetail?.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{item.name}</td>
+                          <td>1</td>
+                          <td>
+                            <img
+                              src={item.image}
+                              alt="..."
+                              width={50}
+                              height={50}
+                              style={{ objectFit: "cover" }}
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

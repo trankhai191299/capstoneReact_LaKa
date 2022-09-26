@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { http } from '../../util/setting';
-import { getProfileApi } from './userReducer';
+import { http, setStoreJson,CART, getStoreJson } from '../../util/setting';
+
 const initialState = {
     arrProduct:[],
     productDetail:{},
-    cart:[]
+    cart:[],
 }
 
 const productReducer = createSlice({
@@ -30,6 +30,7 @@ const productReducer = createSlice({
         cartUpdate[indexItem].count += cartItem.count
       }
       state.cart = cartUpdate
+      setStoreJson(CART,state.cart)
       if(state.cart){
         alert('Thêm vào giỏ hàng thành công')
       }else{
@@ -100,18 +101,18 @@ export const getProductDetailApi = (id) =>{
   }
 }
 
-export const orderItemApi = (order)=>{
-  return async (dispatch)=>{
-    try {
-      if(order.orderDetail.length !== 0){
-        let result = await http.post('/users/order',order)
-        getAllProductApi()
-        alert('Đã order thành công!')
-      }else{
-        alert('Xin vui lòng thử lại')
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-}
+// export const orderItemApi = (order)=>{
+//   return async (dispatch)=>{
+//     try {
+//       if(order.orderDetail.length !== 0){
+//         let result = await http.post('/users/order',order)
+//         getProfileApi()
+//         alert('Đã order thành công!')
+//       }else{
+//         alert('Xin vui lòng thử lại')
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+// }

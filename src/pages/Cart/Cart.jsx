@@ -1,8 +1,9 @@
+import axios from 'axios'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { deleteCartAction,upDownQuantityAction,orderItemApi} from '../../redux/reducers/productReducer'
+import { deleteCartAction,upDownQuantityAction} from '../../redux/reducers/productReducer'
 
 export default function Cart() {
   const {cart} = useSelector(state=>state.productReducer)
@@ -14,8 +15,28 @@ export default function Cart() {
   const upDownItem = ({itemId,num})=>{
     dispatch(upDownQuantityAction({itemId,num}))
   }
-  const orderConfirm = (order)=>{
-    dispatch(orderItemApi(order))
+  const orderConfirm = async() => {
+    let email = userLogin.email
+    let orderDetail = [...cart]
+    for (let order of orderDetail){
+      delete Object.assign(order,{id:order.productId})['id']
+      delete Object.assign(order,{count:order.quantity})['count']
+    }
+    console.log(orderDetail);
+    try {
+      const result = await axios({
+        url:"https://shop.cyberlearn.vn/api/Users/order",
+        method:"POST",
+        data:{
+          orderDetail:orderDetail,
+          email:email
+        }
+      })
+      alert("Đặt hàng thành công")
+      console.log(result.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
   const renderCartItem = () =>{
     if(cart.length !== 0){
@@ -110,26 +131,8 @@ export default function Cart() {
               </tbody>
             </table>
           </div>
-          <button className='btn btn-submitOrder btn-dark text-white position-absolute text-uppercase' style={{bottom:-30,right:0}} onClick={()=>{
-            let email = userLogin.email
-            let orderDetail = [...cart]
-            const replace = {
-              id:"productId",
-              count:"quantity"
-            }
-            // let orderRes = orderDetail.map((prod)=>{
-            //   for(let key in replace){
-            //     if(prod[key]){
-            //       prod[replace[key]] = prod[key]
-            //       delete prod[key]
-            //     }
-            //   }
-            //   return prod
-            // })
-            console.log(orderDetail);
-            // console.log(orderRes);
-            // let order = {orderDetail,email}
-            // orderConfirm(order)
+          <button className='btn btn-submitOrder btn-dark text-white position-absolute text-uppercase' style={{bottom:-30,right:0}} onClick={() => {
+            orderConfirm()
           }}>Submit Order</button>
         </div>
       </div>

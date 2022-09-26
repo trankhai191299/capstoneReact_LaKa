@@ -46,9 +46,10 @@ export const config = {
     },
     ACCESS_TOKEN: 'accessToken',
     USER_LOGIN:'userLogin',
+    CART:'cart'
 }
 
-export const {setCookie,getCookie,getStore,getStoreJson,setStore,setStoreJson,deleteStore,ACCESS_TOKEN,USER_LOGIN} = config
+export const {setCookie,getCookie,getStore,getStoreJson,setStore,setStoreJson,deleteStore,ACCESS_TOKEN,USER_LOGIN,CART} = config
 
 /*Cau hinh request cho tat ca api- response cho tat ca kq tra ve tu api*/
 /* Cau hinh domain gui di */
@@ -77,16 +78,18 @@ http.interceptors.request.use(
 http.interceptors.response.use((response)=>{
     return response
 },err=>{
-    if(err.response.data?.message === "Đăng nhập thất bại!"){
-        alert('Xin hãy kiểm tra lại email hoặc password')
-        history.push('/login')
-        return Promise.reject(err)
-    }
-    if(err.response.data.message === "Email đã được sử dụng!"){
-        alert('Email đã được sử dụng! Xin hãy sử dụng email khác')
-        history.push('/register')
-        return Promise.reject(err)
-        
+    if(typeof(err.response.data.message) !== "undefined" && err.response.data.message!==null){
+        if(err.response.data.message === "Đăng nhập thất bại!"){
+            alert('Xin hãy kiểm tra lại email hoặc password')
+            history.push('/login')
+            return Promise.reject(err)
+        }
+        if(err.response.data.message === "Email đã được sử dụng!"){
+            alert('Email đã được sử dụng! Xin hãy sử dụng email khác')
+            history.push('/register')
+            return Promise.reject(err)
+            
+        }
     }
     if(err.response.status === '400' || err.response.status === '404'){
         history.push('/')
