@@ -126,7 +126,7 @@ export default function Home() {
       <div className="product-feature">
         <div className="container">
           <div className="title">
-            <h3 className="text-center">-Product Feature -</h3>
+            <h3 className="text-start text-light">Product Feature</h3>
           </div>
           <div className="row" id="productFeatureTbl">
             {renderProductFeature()}

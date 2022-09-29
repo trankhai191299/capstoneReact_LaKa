@@ -3,16 +3,25 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux';
 // import { useEffect } from 'react';
-// import { ACCESS_TOKEN, getStore } from '../../util/setting';
+import { ACCESS_TOKEN, getStore } from '../../util/setting';
 import { updateApi,getProfileApi } from '../../redux/reducers/userReducer';
 import { useEffect } from 'react';
-
+import { Navigate } from 'react-router-dom';
+import {history} from "../../index"
 export default function Profile() {
   const {userLogin} = useSelector(state => state.userReducer)
   const dispatch = useDispatch()
   useEffect(()=>{
-    getProfileApi()
+    if (!getStore(ACCESS_TOKEN)) {
+      alert("Bắt buộc phải đăng nhập trước khi vào trang này");
+      history.push('/login')
+    }
+    if(getStore(ACCESS_TOKEN)){
+      getProfileApi()
+    }
   },[])
+    
+  
   const frm = useFormik({
     initialValues:{
       email:userLogin?.email ,
@@ -57,7 +66,7 @@ export default function Profile() {
                       type="email"
                       name="email"
                       id="email"
-                      value={userLogin?.email}
+                      placeholder={userLogin?.email}
                       className="form-control mb-3"
                       onChange={frm.handleChange}
                       onBlur={frm.handleBlur}
@@ -76,7 +85,7 @@ export default function Profile() {
                       type="text"
                       name="phone"
                       id="phone"
-                      value={userLogin?.phone}
+                      placeholder={userLogin?.phone}
                       className="form-control"
                       onChange={frm.handleChange}
                       onBlur={frm.handleBlur}
@@ -97,7 +106,7 @@ export default function Profile() {
                       type="text"
                       name="name"
                       id="name"
-                      value={userLogin?.name}
+                      placeholder={userLogin?.name}
                       className="form-control mb-3"
                       onChange={frm.handleChange}
                       onBlur={frm.handleBlur}
@@ -170,47 +179,63 @@ export default function Profile() {
           </div>
         </div>
         <hr />
-        <div
-          className="tab-pane fade"
-          id="v-pills-history"
-          role="tabpanel"
-          aria-labelledby="v-pills-history-tab"
-        >
-          {userLogin?.ordersHistory?.map((orderItem, index) => {
-            return (
-              <div className="mt-2" key={index}>
-                <h3>Order Detail</h3>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Quantity</th>
-                      <th>Image</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orderItem.orderDetail?.map((item, index) => {
-                      return (
-                        <tr key={index}>
-                          <td>{item.name}</td>
-                          <td>1</td>
-                          <td>
-                            <img
-                              src={item.image}
-                              alt="..."
-                              width={50}
-                              height={50}
-                              style={{ objectFit: "cover" }}
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            );
-          })}
+        <div className="list-order-area">
+          <div className="d-flex btn-area">
+            <button className="btn-history">OrderHistory</button>
+            <button className="btn-favorite">Favorite</button>
+          </div>
+          <div className="tab-pane fade" id="v-pills-history" role="tabpanel">
+            {userLogin?.ordersHistory?.map((orderItem, index) => {
+              return (
+                <div className="mt-2" key={index}>
+                  <span className="order-date">
+                    + Orders have been placed on {orderItem.date}
+                  </span>
+                  <h3>Order Detail</h3>
+                  <table className="table border-0">
+                    <thead className="table-dark">
+                      <tr className="text-center">
+                        <th>Id</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orderItem.orderDetail?.map((item, index) => {
+                        return (
+                          <tr key={index}>
+                            <th>{orderItem.id}</th>
+                            <th>
+                              <img
+                                src={item.image}
+                                alt="..."
+                                width={50}
+                                height={50}
+                                className="img-fluid"
+                              />
+                            </th>
+                            <th>{item.name}</th>
+                            <th>{item.price}</th>
+                            <th>{item.quantity}</th>
+                            <th>{item.quantity * item.price}</th>
+                            <th>
+                              <button className="btn btn-danger">
+                                Delete order
+                              </button>
+                            </th>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

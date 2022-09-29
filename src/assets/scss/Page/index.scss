@@ -79,6 +79,11 @@
   }
 }
 .product-feature {
+  .title{
+    width: 60%;
+    padding: 10px 25px;
+    background: linear-gradient(180deg, #F21299 0%, #1B02B5 100%);
+  }
   padding-top: 25px;
   .row {
     margin-top: 50px;

@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { http, setStoreJson,CART, getStoreJson } from '../../util/setting';
+import { http, setStore,CART, getStoreJson, setStoreJson } from '../../util/setting';
 
 const initialState = {
     arrProduct:[],
     productDetail:{},
-    cart:[],
+    cart:getStoreJson(CART) == null ? [] : getStoreJson(CART),
+    arrSearch:[],
 }
 
 const productReducer = createSlice({
@@ -61,6 +62,9 @@ const productReducer = createSlice({
       }
       state.cart = cartUpdate
     },
+    getSearchProductAction:(state,action)=>{
+      state.arrSearch = action.payload
+    }
     // orderItemAction:(state,action)=>{
     //   let {itemId,quantity,email} = action.payload
     //   let orderItem = {itemId,quantity}
@@ -71,7 +75,7 @@ const productReducer = createSlice({
   }
 });
 
-export const {getAllProductAction,getProductDetailAction,addCartAction,deleteCartAction,upDownQuantityAction,orderItemAction} = productReducer.actions
+export const {getAllProductAction,getProductDetailAction,addCartAction,deleteCartAction,upDownQuantityAction,orderItemAction,getSearchProductAction} = productReducer.actions
 
 export default productReducer.reducer
 
@@ -79,8 +83,7 @@ export default productReducer.reducer
 export const getAllProductApi = () =>{
   return async (dispatch)=>{
     try {
-      let result = await http.get('/product')
-
+      let result = await http.get('/Product')
       const action = getAllProductAction(result.data.content)
       dispatch(action)
     } catch (error) {
@@ -100,7 +103,20 @@ export const getProductDetailApi = (id) =>{
     }
   }
 }
-
+export const getProductByName = (name)=>{
+  return async(dispatch)=>{
+    try {
+      if(name.trim() !== '' && name !== null){
+        let result = await http.get(`/product?keyword=${name}`)
+        dispatch(getSearchProductAction(result.data.content))
+      }else{
+        dispatch(getSearchProductAction(''))
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
 // export const orderItemApi = (order)=>{
 //   return async (dispatch)=>{
 //     try {

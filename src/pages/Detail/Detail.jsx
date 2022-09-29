@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 import { addCartAction, getProductDetailApi } from '../../redux/reducers/productReducer';
-
+import { getProfileApi } from '../../redux/reducers/userReducer';
+import {history} from '../../index'
 export default function Detail() {
   const {productDetail} = useSelector(state=>state.productReducer)
+  const {userLogin} = useSelector(state=>state.userReducer)
   const dispatch = useDispatch()
   const params = useParams()
   const [count,setCount] = useState(1)
@@ -20,6 +22,9 @@ export default function Detail() {
   useEffect(()=>{
     getProductDetail()
   },[params?.id])
+  useEffect(()=>{
+    getProfileApi()
+  },[])
   const renderSize = () =>{
     return productDetail.size?.map((sz,index)=>{
       return (
@@ -86,7 +91,14 @@ export default function Detail() {
             }}
             className="btn cart mt-3 p-2 text-white"
             onClick={()=>{
-              addCart({cartItem:productDetail,count:count})
+              if(userLogin){
+                addCart({cartItem:productDetail,count:count})
+              }else{
+                if(window.confirm('Bạn có muốn đăng nhập để mua hàng không?')){
+                  history.push('/login')
+                }
+              }
+              
             }}
           >
             Add to cart

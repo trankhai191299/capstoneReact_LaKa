@@ -75,27 +75,31 @@ http.interceptors.request.use(
     }
   )
 /*Cau hinh response*/
+const userLogin = getStore(USER_LOGIN)
 http.interceptors.response.use((response)=>{
     return response
 },err=>{
-    if(typeof(err.response.data.message) !== "undefined" && err.response.data.message!==null){
-        if(err.response.data.message === "Đăng nhập thất bại!"){
-            alert('Xin hãy kiểm tra lại email hoặc password')
-            history.push('/login')
-            return Promise.reject(err)
-        }
-        if(err.response.data.message === "Email đã được sử dụng!"){
-            alert('Email đã được sử dụng! Xin hãy sử dụng email khác')
-            history.push('/register')
-            return Promise.reject(err)
-            
+    if(userLogin){
+        if(typeof(err?.response?.data?.message) !== undefined && err?.response?.data?.message!==null){
+            if(err?.response?.data?.message === "Đăng nhập thất bại!"){
+                alert('Xin hãy kiểm tra lại email hoặc password')
+                history.push('/login')
+                return Promise.reject(err)
+            }
+            if(err?.response?.data?.message === "Email đã được sử dụng!"){
+                alert('Email đã được sử dụng! Xin hãy sử dụng email khác')
+                history.push('/register')
+                return Promise.reject(err)
+                
+            }
         }
     }
-    if(err.response.status === '400' || err.response.status === '404'){
+    
+    if(err.response.status === 400 || err.response.status === 404){
         history.push('/')
         return Promise.reject(err)
     }
-    if(err.response.status === '401' || err.response.status === '403'){
+    if(err.response.status === 401 || err.response.status === 403){
         alert('Token không hợp lệ! Vui lòng đăng nhập lại')
         history.push('/login')
         return Promise.reject(err)

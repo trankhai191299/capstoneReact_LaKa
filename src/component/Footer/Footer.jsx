@@ -1,5 +1,5 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom'
+import { NavLink} from 'react-router-dom'
 import {USER_LOGIN,ACCESS_TOKEN,deleteStore} from "../../util/setting"
 import { history } from '../../index';
 export default function Footer() {
@@ -42,10 +42,9 @@ export default function Footer() {
             <div className="info d-flex flex-column">
               <NavLink to="/register">Register</NavLink>
               <NavLink to="/login">Login</NavLink>
-              <NavLink className='text-dark' onClick={()=>{
+              <NavLink className='text-dark' to='/home' onClick={()=>{
                 deleteStore(USER_LOGIN)
                 deleteStore(ACCESS_TOKEN)
-                history.push('/')
               }}>Log Out</NavLink>
             </div>
           </div>

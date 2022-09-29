@@ -1,13 +1,22 @@
 import axios from 'axios'
-import React from 'react'
+import React, { useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { Navigate, NavLink} from 'react-router-dom'
 import { deleteCartAction,upDownQuantityAction} from '../../redux/reducers/productReducer'
+import { ACCESS_TOKEN, getStore } from '../../util/setting'
 
 export default function Cart() {
   const {cart} = useSelector(state=>state.productReducer)
   const {userLogin} = useSelector(state=>state.userReducer)
+  const [test,setTest]= useState([])
+  useEffect(() => {
+    if(cart) {
+      setTest([...cart])
+    }
+  }, [])
+  console.log(test);
   const dispatch = useDispatch()
   const deleteItem = (itemId) =>{
     dispatch(deleteCartAction(itemId))
@@ -15,20 +24,35 @@ export default function Cart() {
   const upDownItem = ({itemId,num})=>{
     dispatch(upDownQuantityAction({itemId,num}))
   }
+  
+    if (!getStore(ACCESS_TOKEN)) {
+      alert("Bắt buộc phải đăng nhập trước khi vào trang này");
+      return <Navigate to="/login"></Navigate>;
+    }
+  
+    
   const orderConfirm = async() => {
     let email = userLogin.email
-    let orderDetail = [...cart]
-    for (let order of orderDetail){
-      delete Object.assign(order,{id:order.productId})['id']
-      delete Object.assign(order,{count:order.quantity})['count']
-    }
-    console.log(orderDetail);
+    // let orderDetail = [...test]
+    // for (let order of orderDetail){
+    //   delete Object.assign(order,{id:order.productId})['id']
+    //   // order['productId'] = order['id']
+    //   delete Object.assign(order,{count:order.quantity})['count']
+    //   // oder['quantity'] = order['count']
+    // }
+    // console.log(orderDetail)
+    test.map((item)=>{ 
+      console.log(item.id)
+      return {...item,productId:item.id}
+    })
+    setTest([...test])
+    console.log(test);
     try {
       const result = await axios({
         url:"https://shop.cyberlearn.vn/api/Users/order",
         method:"POST",
         data:{
-          orderDetail:orderDetail,
+          orderDetail:test,
           email:email
         }
       })
@@ -39,8 +63,8 @@ export default function Cart() {
     }
   }
   const renderCartItem = () =>{
-    if(cart.length !== 0){
-      return cart.map(cartItem=>{
+    if(cart?.length !== 0){
+      return cart?.map(cartItem=>{
         return (
           <tr key={cartItem.id}>
             <td>{cartItem.id}</td>

@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 export default function Header() {
   const {cart} = useSelector(state=>state.productReducer)
   const {userLogin} = useSelector(state=>state.userReducer)
-  const soLuongSp = cart.reduce((tsl,sp,index)=>{
+  const soLuongSp = cart?.reduce((tsl,sp,index)=>{
     return tsl += sp.count
   },0)
   const renderLoginNav = () =>{
@@ -28,7 +28,7 @@ export default function Header() {
             </NavLink>
           </div>
           <div className="user-section">
-            <NavLink to="/" className="search d-inline-block me-2">
+            <NavLink to="/search" className="search d-inline-block me-2">
               <img src="/img/searchImg.png" alt="..." />
               <span className="search-link">Search</span>
             </NavLink>

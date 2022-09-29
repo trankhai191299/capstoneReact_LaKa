@@ -19,6 +19,7 @@ import "../node_modules/slick-carousel/slick/slick.css";
 import "../node_modules/slick-carousel/slick/slick-theme.css";
 import './assets/scss/styles.scss'
 import Profile from './pages/Profile/Profile';
+import Search from './pages/Search/Search';
 //
 export const history = createBrowserHistory({ window });
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -37,8 +38,9 @@ root.render(
         </Route>
         <Route path='profile' element={<Profile/>}></Route>
         <Route path='cart' element={<Cart/>}></Route>
+        <Route path='search' element={<Search/>}></Route>
         {/* 
-        <Route path='search' element={<Login/>}></Route>
+        
         
          */}
       </Route>
