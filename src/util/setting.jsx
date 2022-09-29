@@ -40,7 +40,7 @@ export const config = {
         return null
     },
     deleteStore:(name)=>{
-        if(!localStorage){
+        if(localStorage){
             localStorage.removeItem(name)
         }
     },
@@ -62,9 +62,10 @@ export const http = axios.create({
 /*Cau hinh request header*/
 http.interceptors.request.use(
     config => {
-      const token = getStore(ACCESS_TOKEN)
+      const token = getStore(ACCESS_TOKEN);
       config.headers = {
-        ...config.headers,['Authorization']: `Bearer ${token}`,
+        ...config.headers,
+        ['Authorization']: `Bearer ${token}`,
         ['TokenCybersoft']:TOKEN_CYBERSOFT,
       }
       // config.headers['Content-Type'] = 'application/json';
@@ -104,6 +105,8 @@ http.interceptors.response.use((response)=>{
         history.push('/login')
         return Promise.reject(err)
     }
+    return Promise.reject(err)
+
 })
 /*
     status code:

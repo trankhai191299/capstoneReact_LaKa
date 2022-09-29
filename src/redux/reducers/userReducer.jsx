@@ -24,7 +24,6 @@ export const registerApi = (userRegister) =>{
   return async (dispatch)=>{
     try {
       const result = await http.post('/Users/signup',userRegister)
-      // console.log(result)
       alert(result.data.message)
       history.push('/login')
     } catch (error) {
@@ -66,8 +65,24 @@ export const getProfileApi = ()=>{
 export const updateApi = (userUpdate) =>{
   return async (dispatch)=>{
     try {
+      let newPassword = {
+        newPassword: userUpdate.password,
+      }
       const result = await http.post('/Users/updateProfile',userUpdate)
+      if(newPassword){
+        dispatch(changePassword(newPassword))
+      }
       alert("Cập nhật thành công")
+      dispatch(getProfileApi())
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+export const changePassword = (newPassword)=>{
+  return async (dispatch)=>{
+    try {
+      const result = await http.post('/Users/changePassword',newPassword)
       dispatch(getProfileApi())
     } catch (error) {
       console.log(error);

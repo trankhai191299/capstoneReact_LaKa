@@ -45,6 +45,7 @@ export default function Footer() {
               <NavLink className='text-dark' to='/home' onClick={()=>{
                 deleteStore(USER_LOGIN)
                 deleteStore(ACCESS_TOKEN)
+                alert('Đăng xuất thành công')
               }}>Log Out</NavLink>
             </div>
           </div>

@@ -44,27 +44,23 @@
                     @include text($text-base, $text-medium, $text-cl-prim);
                 }
                 .row{
-                    .form-check{
-                        transform: translateX(10px);
-                        .form-check-input{
-                            // width: 65px;
-                            // height: 50px;
-                            // border: none;
-                            // transform: translate(-15px,-10px);
-                            
-                            background-color: $fr-cl-check1;
-                            &:focus{
-                                box-shadow: none;
-                            }
-                            &:checked[type=radio]{
-                              background-image: url("../../img/purple-dot.png");
+                    .ant-radio-wrapper{
+                        .ant-radio{
+                            .ant-radio-inner{
+                                width: 25px;
+                                height: 25px;
+                                &.ant-radio-checked::after{
+                                    width: 18px;
+                                    height: 18px;
+                                }
                             }
                         }
-                        .form-check-label{
-                            margin-top: 15px;
-                            @include text($text-sm, $text-medium, $text-cl-prim);
+                        span.ant-radio + *{
+                            @include text($text-sm,$text-medium,$text-cl-sp2);
+                            transform: translateY(-5px);
                         }
                     }
+                    
                     button {
                         transition: all 0.5s;
                         margin-top: 25px;

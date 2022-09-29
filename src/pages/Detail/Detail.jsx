@@ -152,7 +152,7 @@ export default function Detail() {
         <div className="product-feature">
           <div className="container">
             <div className="title">
-              <h3 className="text-center">-Relate Product-</h3>
+              <h3 className="text-center text-light">Related Products</h3>
             </div>
             <div className="row" id="relatedProducts">
               {renderRelatedItem()}

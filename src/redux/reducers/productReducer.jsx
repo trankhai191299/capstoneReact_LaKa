@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { http, setStore,CART, getStoreJson, setStoreJson } from '../../util/setting';
+import { getProfileApi } from './userReducer';
 
 const initialState = {
     arrProduct:[],
@@ -82,13 +83,9 @@ export default productReducer.reducer
 //-----------------------action api-------------//
 export const getAllProductApi = () =>{
   return async (dispatch)=>{
-    try {
-      let result = await http.get('/Product')
+      let result = await http.get('Product')
       const action = getAllProductAction(result.data.content)
       dispatch(action)
-    } catch (error) {
-      console.log(error);
-    }
   }
 }
 
@@ -117,18 +114,13 @@ export const getProductByName = (name)=>{
     }
   }
 }
-// export const orderItemApi = (order)=>{
-//   return async (dispatch)=>{
-//     try {
-//       if(order.orderDetail.length !== 0){
-//         let result = await http.post('/users/order',order)
-//         getProfileApi()
-//         alert('Đã order thành công!')
-//       }else{
-//         alert('Xin vui lòng thử lại')
-//       }
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// }
+export const deleteOrderApi = (orderId)=>{
+  return async(dispatch)=>{
+    try {
+      let result = await http.post('/Users/deleteOrder',orderId)
+      dispatch(getProfileApi())
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}

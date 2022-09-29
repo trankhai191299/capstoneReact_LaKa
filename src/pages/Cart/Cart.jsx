@@ -5,18 +5,13 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { Navigate, NavLink} from 'react-router-dom'
 import { deleteCartAction,upDownQuantityAction} from '../../redux/reducers/productReducer'
-import { ACCESS_TOKEN, getStore } from '../../util/setting'
+import { getProfileApi } from '../../redux/reducers/userReducer'
+import { ACCESS_TOKEN, CART, getStore } from '../../util/setting'
 
 export default function Cart() {
   const {cart} = useSelector(state=>state.productReducer)
   const {userLogin} = useSelector(state=>state.userReducer)
-  const [test,setTest]= useState([])
-  useEffect(() => {
-    if(cart) {
-      setTest([...cart])
-    }
-  }, [])
-  console.log(test);
+
   const dispatch = useDispatch()
   const deleteItem = (itemId) =>{
     dispatch(deleteCartAction(itemId))
@@ -33,31 +28,26 @@ export default function Cart() {
     
   const orderConfirm = async() => {
     let email = userLogin.email
-    // let orderDetail = [...test]
-    // for (let order of orderDetail){
-    //   delete Object.assign(order,{id:order.productId})['id']
-    //   // order['productId'] = order['id']
-    //   delete Object.assign(order,{count:order.quantity})['count']
-    //   // oder['quantity'] = order['count']
-    // }
-    // console.log(orderDetail)
-    test.map((item)=>{ 
-      console.log(item.id)
-      return {...item,productId:item.id}
-    })
-    setTest([...test])
-    console.log(test);
+    let orderDetail = cart.map((item => {
+      return {
+        productId:item.id,
+        quantity:item.count
+      }
+    }))
+
+    let model = {
+      orderDetail,
+      email
+    }
     try {
       const result = await axios({
         url:"https://shop.cyberlearn.vn/api/Users/order",
         method:"POST",
-        data:{
-          orderDetail:test,
-          email:email
-        }
+        data:model
       })
       alert("Đặt hàng thành công")
-      console.log(result.data);
+      localStorage.removeItem(CART)
+      dispatch(getProfileApi());
     } catch (error) {
       console.log(error);
     }

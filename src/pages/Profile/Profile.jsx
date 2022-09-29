@@ -8,6 +8,8 @@ import { updateApi,getProfileApi } from '../../redux/reducers/userReducer';
 import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import {history} from "../../index"
+import { deleteOrderApi } from '../../redux/reducers/productReducer';
+import {Radio} from 'antd'
 export default function Profile() {
   const {userLogin} = useSelector(state => state.userReducer)
   const dispatch = useDispatch()
@@ -28,7 +30,7 @@ export default function Profile() {
       name:userLogin?.name ,
       phone:userLogin?.phone ,
       password:userLogin?.password ,
-      gender:true,
+      gender:userLogin?.gender,
     },
     validationSchema:Yup.object().shape({
       email:Yup.string().email('email không đúng định dạng'),
@@ -40,8 +42,12 @@ export default function Profile() {
     }),
     onSubmit:(values)=>{
       dispatch(updateApi(values))
-    }
+    },
   })
+  const deleteOrder = (orderId) =>{
+    alert('Xóa đơn thành công')
+    dispatch(deleteOrderApi(orderId))
+  }
   return (
     <div className="profile">
       <div className="container">
@@ -139,8 +145,8 @@ export default function Profile() {
                     )}
                   </div>
                   <div className="row">
-                    <div className="col-6">
-                      <div className="form-items d-flex justify-content-between align-items-center me-5 mb-3 mt-4">
+                    <div className="col-6 mt-4">
+                      {/* <div className="form-items d-flex justify-content-between align-items-center me-5 mb-3 mt-4">
                         <div className="gender-choice-title">
                           <p>Gender</p>
                         </div>
@@ -165,7 +171,12 @@ export default function Profile() {
                           />
                           <p className="form-check-label">Female</p>
                         </div>
-                      </div>
+                      </div> */}
+                      <p className='fw-bold' style={{fontSize:'18px'}}>Gender:</p>
+                      <Radio.Group name="gender" onChange={frm.handleChange}>
+                        <Radio type='radio' value="true" defaultChecked>Male</Radio>
+                        <Radio type='radio' value="false">Female</Radio>
+                      </Radio.Group>
                     </div>
                     <div className="col-6 position-relative">
                       <button className="btn btn-update rounded-pill mt-4 position-absolute end-0">
@@ -181,17 +192,16 @@ export default function Profile() {
         <hr />
         <div className="list-order-area">
           <div className="d-flex btn-area">
-            <button className="btn-history">OrderHistory</button>
+            <button className="btn-history">Order history</button>
             <button className="btn-favorite">Favorite</button>
           </div>
-          <div className="tab-pane fade" id="v-pills-history" role="tabpanel">
+          <div className="tab-pane" id="v-pills-history" role="tabpanel">
             {userLogin?.ordersHistory?.map((orderItem, index) => {
               return (
                 <div className="mt-2" key={index}>
                   <span className="order-date">
                     + Orders have been placed on {orderItem.date}
                   </span>
-                  <h3>Order Detail</h3>
                   <table className="table border-0">
                     <thead className="table-dark">
                       <tr className="text-center">
@@ -207,7 +217,7 @@ export default function Profile() {
                     <tbody>
                       {orderItem.orderDetail?.map((item, index) => {
                         return (
-                          <tr key={index}>
+                          <tr key={index} className="text-center">
                             <th>{orderItem.id}</th>
                             <th>
                               <img
@@ -223,7 +233,13 @@ export default function Profile() {
                             <th>{item.quantity}</th>
                             <th>{item.quantity * item.price}</th>
                             <th>
-                              <button className="btn btn-danger">
+                              <button
+                                className="btn btn-danger"
+                                onClick={() => {
+                                  let orderId = { orderId: orderItem.id };
+                                  deleteOrder(orderId);
+                                }}
+                              >
                                 Delete order
                               </button>
                             </th>

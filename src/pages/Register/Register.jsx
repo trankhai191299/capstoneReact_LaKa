@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
 import { registerApi } from '../../redux/reducers/userReducer'
+import {Radio} from 'antd'
 export default function Register() {
   const dispatch = useDispatch()
 
@@ -20,6 +21,7 @@ export default function Register() {
       name:Yup.string().required('Tên không được bỏ trống').matches(/^[AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+ [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+(?: [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]*)*/,'Tên không đúng định dạng'),
       phone:Yup.string().required('Số điện thoại được để trống').matches(/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,'Số điện thoại không đúng định dạng(09...)').max(10,'Số điện thoại tối đa 10 số'),
       passwordConfirm:Yup.string().required('Password không được để trống').min(6,'Password có độ dài từ 6 đến 32 ký tự').max(32,'Password có độ dài từ 6 đến 32 ký tự'),
+      gender:Yup.boolean()
     }),
     onSubmit : (values) =>{
       dispatch(registerApi(values))
@@ -38,11 +40,18 @@ export default function Register() {
                     type="email"
                     className="form-control"
                     id="email"
-                    name='email'
+                    name="email"
                     placeholder="email"
-                    onChange={frm.handleChange} onBlur={frm.handleBlur}
+                    onChange={frm.handleChange}
+                    onBlur={frm.handleBlur}
                   />
-                  {frm.errors.email?<span className='text-danger text-uppercase'>{frm.errors.email}</span>:""}
+                  {frm.errors.email ? (
+                    <span className="text-danger text-uppercase">
+                      {frm.errors.email}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <div className="col-lg-6 col-md-12">
@@ -51,11 +60,18 @@ export default function Register() {
                     type="text"
                     className="form-control"
                     id="name"
-                    name='name'
+                    name="name"
                     placeholder="name"
-                    onChange={frm.handleChange} onBlur={frm.handleBlur}
+                    onChange={frm.handleChange}
+                    onBlur={frm.handleBlur}
                   />
-                  {frm.errors.name?<span className='text-danger text-uppercase'>{frm.errors.name}</span>:""}
+                  {frm.errors.name ? (
+                    <span className="text-danger text-uppercase">
+                      {frm.errors.name}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <div className="col-lg-6 col-md-12">
@@ -64,11 +80,18 @@ export default function Register() {
                     type="password"
                     className="form-control"
                     id="password"
-                    name='password'
+                    name="password"
                     placeholder="password"
-                    onChange={frm.handleChange} onBlur={frm.handleBlur}
+                    onChange={frm.handleChange}
+                    onBlur={frm.handleBlur}
                   />
-                  {frm.errors.password?<span className='text-danger text-uppercase'>{frm.errors.password}</span>:""}
+                  {frm.errors.password ? (
+                    <span className="text-danger text-uppercase">
+                      {frm.errors.password}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <div className="col-lg-6 col-md-12">
@@ -77,11 +100,18 @@ export default function Register() {
                     type="text"
                     className="form-control"
                     id="phone"
-                    name='phone'
+                    name="phone"
                     placeholder="phone"
-                    onChange={frm.handleChange} onBlur={frm.handleBlur}
+                    onChange={frm.handleChange}
+                    onBlur={frm.handleBlur}
                   />
-                  {frm.errors.phone?<span className='text-danger text-uppercase'>{frm.errors.phone}</span>:""}
+                  {frm.errors.phone ? (
+                    <span className="text-danger text-uppercase">
+                      {frm.errors.phone}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <div className="col-lg-6 col-md-12">
@@ -90,15 +120,22 @@ export default function Register() {
                     type="password"
                     className="form-control"
                     id="passwordConfirm"
-                    name='passwordConfirm'
+                    name="passwordConfirm"
                     placeholder="password confirm"
-                    onChange={frm.handleChange} onBlur={frm.handleBlur}
+                    onChange={frm.handleChange}
+                    onBlur={frm.handleBlur}
                   />
-                  {frm.errors.passwordConfirm?<span className='text-danger text-uppercase'>{frm.errors.passwordConfirm}</span>:""}
+                  {frm.errors.passwordConfirm ? (
+                    <span className="text-danger text-uppercase">
+                      {frm.errors.passwordConfirm}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <div className="col-lg-6 col-md-12">
-                <div className="form-items d-flex justify-content-between align-items-center me-5 mb-3 mt-4">
+                {/* <div className="form-items d-flex justify-content-between align-items-center me-5 mb-3 mt-4">
                   <div className="gender-choice-title">
                     <p>Gender</p>
                   </div>
@@ -127,7 +164,16 @@ export default function Register() {
                       Female
                     </label>
                   </div>
-                </div>
+                </div> */}
+                <p className='fw-bold mt-3' style={{fontSize:'18px'}}>Gender:</p>
+                <Radio.Group name="gender" onChange={frm.handleChange} defaultValue='true'>
+                  <Radio type="radio" value="true">
+                    Male
+                  </Radio>
+                  <Radio type="radio" value="false">
+                    Female
+                  </Radio>
+                </Radio.Group>
               </div>
               <button
                 className="btnSubmit col-md-12 col-lg-3 rounded-pill"
