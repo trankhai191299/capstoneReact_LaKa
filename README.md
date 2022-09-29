@@ -9,4 +9,4 @@ Trần Hoàng Khải: home, detail, login, register, profile, search, cart \
 ### Link
 Github: https://github.com/trankhai191299/capstoneReact_LaKa.git \
 Deploy: https://reactshoes-capstone.vercel.app/ \
-Youtube: 
+Youtube: https://youtu.be/R9gW9djtx3o
