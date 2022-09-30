@@ -174,7 +174,7 @@ export default function Profile() {
                       </div> */}
                       <p className='fw-bold' style={{fontSize:'18px'}}>Gender:</p>
                       <Radio.Group name="gender" onChange={frm.handleChange}>
-                        <Radio type='radio' value="true" defaultChecked>Male</Radio>
+                        <Radio type='radio' value="true">Male</Radio>
                         <Radio type='radio' value="false">Female</Radio>
                       </Radio.Group>
                     </div>

@@ -20,7 +20,7 @@ export default function Register() {
       password:Yup.string().required('Password không được để trống').min(6,'Password có độ dài từ 6 đến 32 ký tự').max(32,'Password có độ dài từ 6 đến 32 ký tự'),
       name:Yup.string().required('Tên không được bỏ trống').matches(/^[AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+ [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+(?: [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]*)*/,'Tên không đúng định dạng'),
       phone:Yup.string().required('Số điện thoại được để trống').matches(/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,'Số điện thoại không đúng định dạng(09...)').max(10,'Số điện thoại tối đa 10 số'),
-      passwordConfirm:Yup.string().required('Password không được để trống').min(6,'Password có độ dài từ 6 đến 32 ký tự').max(32,'Password có độ dài từ 6 đến 32 ký tự'),
+      passwordConfirm:Yup.string().required('Password không được để trống').min(6,'Password có độ dài từ 6 đến 32 ký tự').max(32,'Password có độ dài từ 6 đến 32 ký tự').when("password", {is: (pass) => (pass && pass.length > 0 ? true : false),then: Yup.string().oneOf([Yup.ref("password")],"Password không khớp, xin vui lòng kiểm tra lại")}),
       gender:Yup.boolean()
     }),
     onSubmit : (values) =>{
@@ -166,7 +166,7 @@ export default function Register() {
                   </div>
                 </div> */}
                 <p className='fw-bold mt-3' style={{fontSize:'18px'}}>Gender:</p>
-                <Radio.Group name="gender" onChange={frm.handleChange} defaultValue='true'>
+                <Radio.Group name="gender" onChange={frm.handleChange}>
                   <Radio type="radio" value="true">
                     Male
                   </Radio>
